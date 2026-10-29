@@ -1,0 +1,65 @@
+{
+  "rpeak_source": "graph_r_peak_sample",
+  "signal_source": "preprocessed_graph_build_pipeline",
+  "dwt_signal_orientation": "original",
+  "prominence_negative_polarity_policy": "invert",
+  "prominence_candidates": {
+    "default": {
+      "max_qrs_interval": 180,
+      "max_pr_interval": 300,
+      "max_r_rise_time": 120,
+      "typical_st_segment": 150,
+      "max_p_basepoint_interval": 100,
+      "max_r_basepoint_interval": 100,
+      "max_t_basepoint_interval": 200
+    },
+    "pathology_permissive": {
+      "max_qrs_interval": 250,
+      "max_pr_interval": 500,
+      "max_r_rise_time": 200,
+      "typical_st_segment": 150,
+      "max_p_basepoint_interval": 100,
+      "max_r_basepoint_interval": 250,
+      "max_t_basepoint_interval": 200
+    },
+    "pathology_qrs220": {
+      "max_qrs_interval": 220,
+      "max_pr_interval": 500,
+      "max_r_rise_time": 200,
+      "typical_st_segment": 150,
+      "max_p_basepoint_interval": 100,
+      "max_r_basepoint_interval": 250,
+      "max_t_basepoint_interval": 200
+    },
+    "pathology_qrs204_st164": {
+      "max_qrs_interval": 204,
+      "max_pr_interval": 500,
+      "max_r_rise_time": 200,
+      "typical_st_segment": 164,
+      "max_p_basepoint_interval": 100,
+      "max_r_basepoint_interval": 250,
+      "max_t_basepoint_interval": 200
+    }
+  },
+  "selected_prominence_candidate": "pathology_qrs204_st164",
+  "selection_rationale": "Selected by a model-output-blind, memory-bounded joint search over 216 max-QRS, R-rise, and ST-delay combinations, followed by a 28-point sample-grid refinement and all-exam validation. Relative to pathology_qrs220 on all 106340 CODE-Test lead-beat units, max_qrs_interval=204 ms and typical_st_segment=164 ms increased complete Prominence delineations from 94458 (88.83%) to 94759 (89.11%) and DWT/Prominence common support from 76692 (72.12%) to 77064 (72.47%). Positive-cohort common support increased for 1dAVb from 2133 to 2144 units, RBBB from 2847 to 2866, and LBBB from 1819 to 1834. A descriptive post-selection 2000-resample exam-cluster bootstrap estimated the common-support gain as +0.350 percentage points (95% interval +0.196 to +0.502); it is not an independent selection-adjusted confidence interval. The morphology-positive suspicious-duration unit rate changed from 9.72% to 10.05%, remaining within the predeclared +0.5 percentage-point admissibility bound. PR and T medians were unchanged; QRS median changed from 100.0 to 103.3 ms because the complete-unit population changed, while the final 246.7 ms maximum QRS duration was preserved. Final R/T basepoint windows remain 250/200 ms, so coverage was not gained by truncating returned region boundaries. In LBBB exam 522, Prominence completeness remained 87/156, common support remained 53/156, and the displayed beat remained Prominence-complete in 9/12 leads and DWT/Prominence-common in 7/12 leads. No checkpoint, prediction, probability, attribution, or Shapley output was consulted; clinical fiducial ground truth remains unavailable.",
+  "duration_flag_ranges_ms": {
+    "pr": {
+      "minimum": 60.0,
+      "maximum": 600.0
+    },
+    "qrs": {
+      "minimum": 30.0,
+      "maximum": 300.0
+    },
+    "t": {
+      "minimum": 40.0,
+      "maximum": 500.0
+    }
+  },
+  "common_support_exam_summary_threshold": 0.5,
+  "review_sample": {
+    "exams_per_class": 5,
+    "beats_per_exam": 2
+  }
+}

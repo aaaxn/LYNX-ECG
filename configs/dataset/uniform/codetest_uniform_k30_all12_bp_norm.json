@@ -1,0 +1,38 @@
+{
+  "dataset_source": "codetest",
+  "source_variant": "raw_400hz",
+  "sampling_rate": 400,
+  "resample_to_hz": 300,
+  "graph_leads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "signal_filter": {
+    "method": "bandpass_butterworth_zero_phase",
+    "highpass_hz": 0.5,
+    "lowpass_hz": 40.0,
+    "order": 4
+  },
+  "amplitude_normalization": {
+    "method": "p95_lead_median"
+  },
+  "node_reduction": {
+    "method": "uniform",
+    "uniform": {
+      "target_nodes": 30
+    }
+  },
+  "build": {
+    "jobs": 64
+  }
+}

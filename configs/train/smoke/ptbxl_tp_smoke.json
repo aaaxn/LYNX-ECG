@@ -1,0 +1,53 @@
+{
+  "run_name": "ptbxl_tp_smoke",
+  "dataset_path": "graph_datasets/ptbxl/ptbxl__turning_points__40hz-original-mgap80ms__500hz__code6strict__bp0p5-40hz-o4__resample-300hz__norm-p95med__natural__leads-0-1-2-3-4-5-6-7-8-9-10-11__limit-200.h5",
+  "test_dataset_path": "graph_datasets/ptbxl/ptbxl__turning_points__40hz-original-mgap80ms__500hz__code6strict__bp0p5-40hz-o4__resample-300hz__norm-p95med__natural__leads-0-1-2-3-4-5-6-7-8-9-10-11__limit-200.h5",
+  "results_dir": "results",
+  "model": {
+    "hidden_channels": 128,
+    "in_channels": 2,
+    "edge_dim": 2,
+    "beat_encoder": {
+      "layers": 3,
+      "mlp_hidden": 256
+    },
+    "dropout": 0.012,
+    "gatv2_heads": 4,
+    "gatv2_layers": 2,
+    "gatv2_max_edge_step": 1,
+    "head_hidden_multiplier": 0.5,
+    "head_dropout": 0.118
+  },
+  "optim": {
+    "epochs": 2,
+    "batch_size": 16,
+    "eval_batch_size": 32,
+    "compile": false,
+    "lr": 0.00136,
+    "weight_decay": 0.00075,
+    "early_stop_patience": 15,
+    "scheduler_patience": 2,
+    "scheduler_factor": 0.589,
+    "eval_val_every_epochs": 1,
+    "grad_clip_norm": 1.523,
+    "log_every_steps": 50,
+    "num_workers": 0,
+    "seed": 55,
+    "shuffle_block_exams": 65536
+  },
+  "ddp": {
+    "launcher": "single",
+    "gpus": 1
+  },
+  "threshold": {
+    "value": 0.5
+  },
+  "split": {
+    "strategy": "patient_hash",
+    "val_fraction": 0.2,
+    "seed": 42
+  },
+  "sampling": {
+    "n_neg": 40
+  }
+}

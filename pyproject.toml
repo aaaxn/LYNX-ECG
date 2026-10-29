@@ -1,0 +1,126 @@
+[project]
+name = "lynx-ecg"
+version = "0.0.1"
+description = "LYNX-ECG: visibility graphs of ECG turning points and a hierarchical GNN for auditable 12-lead ECG classification."
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "h5py>=3.15",
+    "joblib>=1.5",
+    "matplotlib>=3.10",
+    "neurokit2>=0.2.12",
+    "numpy>=2.2",
+    "pandas>=2.3",
+    "pydantic>=2.0",
+    "rich>=13.0",
+    "scikit-learn>=1.7",
+    "scipy>=1.15",
+    "tqdm>=4.67",
+    "ts2vg>=1.2",
+    "wfdb>=4.3",
+    "torch==2.11.0+cu130; platform_system == 'Linux' and platform_machine == 'x86_64'",
+    "torch==2.11.0; platform_system == 'Darwin'",
+    "torch-geometric>=2.7.0",
+    "pyg-lib==0.6.0+pt211cu130; platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'",
+    "torch-scatter==2.1.2+pt211cu130; platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'",
+    "torch-sparse==0.6.18+pt211cu130; platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu130", marker = "platform_system == 'Linux' and platform_machine == 'x86_64'" },
+]
+pyg-lib = [
+    { url = "https://data.pyg.org/whl/torch-2.11.0%2Bcu130/pyg_lib-0.6.0%2Bpt211cu130-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'" },
+]
+torch-scatter = [
+    { url = "https://data.pyg.org/whl/torch-2.11.0%2Bcu130/torch_scatter-2.1.2%2Bpt211cu130-cp312-cp312-linux_x86_64.whl", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'" },
+]
+torch-sparse = [
+    { url = "https://data.pyg.org/whl/torch-2.11.0%2Bcu130/torch_sparse-0.6.18%2Bpt211cu130-cp312-cp312-linux_x86_64.whl", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version >= '3.12'" },
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.15",
+    "ty>=0.0.58",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/dataset",
+    "src/config",
+    "src/cli",
+    "src/models",
+    "src/training",
+    "src/explain",
+    "src/ecg_artifact_io",
+    "src/ecg_checkpoint_io",
+    "src/ecg_paired_predictions",
+]
+
+[project.scripts]
+dataset = "cli.build:main"
+dataset-qa = "cli.qa:main"
+delineation-qc = "cli.delineation_qc:main"
+evaluate = "cli.evaluate:main"
+train = "cli.train:main"
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib", "-ra", "-m", "unit or integration"]
+pythonpath = [
+    "src",
+    "scripts/dataset",
+    "scripts/evaluation",
+    "scripts/explain",
+    ".",
+]
+markers = [
+    "unit: fast tests with no process-backed test bodies (default)",
+    "integration: process-backed and pipeline tests with synthetic ECG (default)",
+    "smoke: small real-data builds (skipped without ECG_DATASETS_ROOT)",
+    "slow: large/full-dataset tests (opt-in)",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.src]
+include = ["src"]
+
+[tool.ty.terminal]
+error-on-warning = false
+output-format = "concise"
+
+[tool.ty.analysis]
+replace-imports-with-any = [
+    "torch.**",
+    "torch_geometric.**",
+    "numpy.**",
+    "pandas.**",
+    "matplotlib.**",
+    "joblib.**",
+]
